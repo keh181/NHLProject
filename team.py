@@ -45,12 +45,13 @@ def search_team(dTeam):
 
 def main():
     desiredTeam = input("What team would you like to look for?: ")
-    startTime = time.time()
     parse_teams()
     idNum = search_team(desiredTeam)
+
     if (idNum > 0):
         print(idNum)
-    print("The program took", time.time() - startTime, "to run")
+    else:
+        print(desiredTeam, "not found")
 
 
 if __name__ == '__main__':
