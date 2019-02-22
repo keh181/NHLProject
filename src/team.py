@@ -1,13 +1,9 @@
 import urllib.request
-import datetime
 import json
-import time
 
-# the number of teams in the NHL at this given time
-# put this here so it'll be easy to change code when Seatle joins the league
-MAX_TEAMS = 31
+
 teamDict = {}
-
+playerDict = {}
 
 def get_feed(url):
     request = urllib.request.Request(url)
@@ -18,13 +14,22 @@ def get_feed(url):
 def parse_teams():
     try:
         root = get_feed("https://statsapi.web.nhl.com/api/v1/teams")
+        # loop to add teams to teamDict
+        for i in range(len(root["teams"])):
+            # gets team and team id then adds it to teamDict
+            teamDict[root["teams"][i]["name"]] = root["teams"][i]["id"]
     except Exception as e:
         print("Couldn't get feed")
 
-    # loop to add teams to teamDict
-    for i in range(0, MAX_TEAMS):
-        # gets team and team id then adds it to teamDict
-        teamDict[root["teams"][i]["name"]] = root["teams"][i]["id"]
+def parse_roster(idNum):
+    try:
+        root = get_feed("https://statsapi.web.nhl.com/api/v1/teams/"+str(idNum)+"/roster")
+        for i in range(len(root["roster"])):
+            playerDict[root["roster"][i]["person"]["fullName"]] = root["roster"][i]["person"]["id"]
+    except Exception as e:
+        print("Couldn't get feed")
+        print("https://statsapi.web.nhl.com/api/v1/teams/"+str(idNum)+"/roster")
+
 
 def search_team(dTeam):
     result = -1
@@ -39,7 +44,8 @@ def main():
     idNum = search_team(desiredTeam)
 
     if (idNum > 0):
-        print(idNum)
+        print(str(idNum))
+        parse_roster(idNum)
     else:
         print(desiredTeam, "not found")
 
