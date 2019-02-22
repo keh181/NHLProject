@@ -6,7 +6,7 @@ import time
 # the number of teams in the NHL at this given time
 # put this here so it'll be easy to change code when Seatle joins the league
 MAX_TEAMS = 31
-teamList = []
+teamDict = {}
 
 
 def get_feed(url):
@@ -16,36 +16,26 @@ def get_feed(url):
 
 
 def parse_teams():
-
     try:
         root = get_feed("https://statsapi.web.nhl.com/api/v1/teams")
     except Exception as e:
         print("Couldn't get feed")
 
-    # loop to add teams to teamLst
+    # loop to add teams to teamDict
     for i in range(0, MAX_TEAMS):
-        # gets team and team id then adds it to teamList
-        team = (root["teams"][i]["id"], root["teams"][i]["name"])
-        teamList.append(team)
-
+        # gets team and team id then adds it to teamDict
+        teamDict[root["teams"][i]["name"]] = root["teams"][i]["id"]
 
 def search_team(dTeam):
     result = -1
-    # searches the list of tuples and returns team id
-    for t in teamList:
-        if (not (dTeam in t)):
-            continue
-        result = t[0]
-    # prints only if team is not found
-    if result == "":
-        print(dTeam, "not found")
-        return -1
+    if dTeam in teamDict:
+        result = teamDict[dTeam]
     return result
 
 
 def main():
-    desiredTeam = input("What team would you like to look for?: ")
     parse_teams()
+    desiredTeam = input("What team would you like to look for?: ")
     idNum = search_team(desiredTeam)
 
     if (idNum > 0):
