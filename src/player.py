@@ -29,9 +29,9 @@ def getFeed(url):
     response = urllib.request.urlopen(request)
     return json.loads(response.read().decode())
 
-def parsePlayer():
+def parsePlayer(playerID):
     try:
-        root = getFeed("https://statsapi.web.nhl.com/api/v1/people/8471675?hydrate=stats(splits=statsSingleSeason)")
+        root = getFeed("https://statsapi.web.nhl.com/api/v1/people/" + str(playerID) +"?hydrate=stats(splits=statsSingleSeason)")
     except Exception as e:
         print("Failed to find player")
     #gathering data to make Player object
@@ -45,7 +45,7 @@ def parsePlayer():
 
 def main():
     #currently is Sidney Crosby's stats
-    parsePlayer()
+    parsePlayer(8471675)
 
 
 
