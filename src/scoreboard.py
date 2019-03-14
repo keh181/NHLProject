@@ -19,7 +19,7 @@ def parseScoreboard(date): # YYYY-mm-dd format
 	# Tries to get the json feed for the scoreboard on the given date
 	try:
 		root = getFeed("https://statsapi.web.nhl.com/api/v1/schedule?startDate=" + date + "&endDate=" + date + "&expand=schedule.linescore")
-	except Exception as e:
+	except Exception:
 		print("Failed to find feed.")
 
 	# Loop through each game on the scoreboard
@@ -29,7 +29,7 @@ def parseScoreboard(date): # YYYY-mm-dd format
 		state = game["status"]["detailedState"]
 		if state == "Scheduled" or state == "Preview":
 			time = game["gameDate"].split("T")[1]
-			hour = int(time[:2]) + 19 # convert to EST (24-hour time)
+			hour = (int(time[:2])-4)%12 # convert to EST (24-hour time)
 			min = time[3:5]
 			print(str(hour) + ":" + min + " ET")
 		else: # state == "In Progress" or state == "Final"
