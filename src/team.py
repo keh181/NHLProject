@@ -19,7 +19,7 @@ def parse_teams():
             # gets team and team id then adds it to teamDict
             teamDict[root["teams"][i]["name"]] = root["teams"][i]["id"]
     except Exception as e:
-        print("Couldn't get feed")
+        print("Couldn't get feed.\nException:" + e)
 
 # gets roster for a specified team from NHL API
 def parse_roster(idNum):
@@ -30,6 +30,7 @@ def parse_roster(idNum):
     except Exception as e:
         print("Couldn't get feed")
         print("https://statsapi.web.nhl.com/api/v1/teams/"+str(idNum)+"/roster")
+        print("\nException: " + e)
 
 # searches dictionary of teams
 def search_team(dTeam):
