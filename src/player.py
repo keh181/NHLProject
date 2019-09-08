@@ -34,6 +34,7 @@ def parsePlayer(playerID):
         root = getFeed("https://statsapi.web.nhl.com/api/v1/people/" + str(playerID) +"?hydrate=stats(splits=statsSingleSeason)")
     except Exception as e:
         print("Failed to find player")
+        print("Exception: " + e)
     #gathering data to make Player object
     playerName = root["people"][0]["fullName"]
     gamesPlayed = root["people"][0]["stats"][0]["splits"][0]["stat"]["games"]
