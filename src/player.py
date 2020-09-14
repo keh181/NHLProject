@@ -42,7 +42,7 @@ def parsePlayer(playerID):
     playerAssists = root["people"][0]["stats"][0]["splits"][0]["stat"]["assists"]
     playerPoints = root["people"][0]["stats"][0]["splits"][0]["stat"]["points"]
     newPlayer = make_player(playerName,gamesPlayed,playerGoals,playerAssists,playerPoints)
-    newPlayer.printPlayer()
+    return newPlayer
 
 def main():
     #currently is Sidney Crosby's stats
